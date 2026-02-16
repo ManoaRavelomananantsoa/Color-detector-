@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import CameraFrame from '@/screens/CameraFrame';
-import { ThemedView } from '@/components/themed-view';
-import { ThemedText } from '@/components/themed-text';
-import { Link } from 'expo-router';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import CameraFrame from "@/screens/CameraFrame";
+import { Link } from "expo-router";
+import { StyleSheet } from "react-native";
 
 export default function CameraScreen() {
   return (
@@ -10,7 +10,7 @@ export default function CameraScreen() {
       <ThemedText type="title" style={styles.title}>
         Détecteur de Couleurs
       </ThemedText>
-      
+
       <CameraFrame />
 
       <Link href="/" dismissTo style={styles.link}>
@@ -23,12 +23,14 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   title: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   link: {
     marginTop: 30,
