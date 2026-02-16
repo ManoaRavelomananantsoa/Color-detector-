@@ -1,98 +1,185 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Button } from "@/components/button";
+import { FlatIcon } from "@/components/flat-icon";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useRouter } from "expo-router";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+  const isDark = colorScheme === "dark";
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <ScrollView
+      style={[styles.container, isDark && styles.containerDark]}
+      contentContainerStyle={styles.scrollContent}
+    >
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={[styles.headerTitle, isDark && styles.textDark]}>
+          Color Detector
+        </Text>
+        <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
+          Détectez et analysez les couleurs
+        </Text>
+      </View>
+
+      {/* Color Circle */}
+      <View style={styles.colorCircleContainer}>
+        <View style={styles.colorCircle}>
+          <Text style={styles.colorEmoji}>🎨</Text>
+        </View>
+      </View>
+
+      {/* Description Card */}
+      <View
+        style={[styles.descriptionCard, isDark && styles.descriptionCardDark]}
+      >
+        <Text style={[styles.descriptionTitle, isDark && styles.textDark]}>
+          Bienvenue!
+        </Text>
+        <Text
+          style={[styles.descriptionText, isDark && styles.textSecondaryDark]}
+        >
+          Utilisez votre caméra pour détecter les couleurs en temps réel.
+          Obtenez des informations détaillées sur chaque teinte, saturation et
+          luminosité.
+        </Text>
+      </View>
+
+      {/* Features */}
+      <View style={styles.featuresContainer}>
+        <View style={[styles.featureItem, isDark && styles.featureItemDark]}>
+          <FlatIcon name="camera" size={24} color="#000" />
+          <Text style={[styles.featureText, isDark && styles.textDark]}>
+            Détection en temps réel
+          </Text>
+        </View>
+        <View style={[styles.featureItem, isDark && styles.featureItemDark]}>
+          <FlatIcon name="target" size={24} color="#000" />
+          <Text style={[styles.featureText, isDark && styles.textDark]}>
+            Analyse précise
+          </Text>
+        </View>
+        <View style={[styles.featureItem, isDark && styles.featureItemDark]}>
+          <FlatIcon name="history" size={24} color="#000" />
+          <Text style={[styles.featureText, isDark && styles.textDark]}>
+            Historique des couleurs
+          </Text>
+        </View>
+      </View>
+
+      {/* Action Button */}
+      <Button title="Commencer" onPress={() => router.push("/modal")} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
   },
-  stepContainer: {
-    gap: 8,
+  containerDark: {
+    backgroundColor: "#1A1A1A",
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 40,
+    justifyContent: "center",
+  },
+  header: {
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  headerTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
     marginBottom: 8,
+    color: "#000",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    fontSize: 16,
+    opacity: 0.7,
+    color: "#000",
+  },
+  subtitleDark: {
+    color: "#FFF",
+  },
+  colorCircleContainer: {
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  colorCircle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: "#FF6B6B",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  colorEmoji: {
+    fontSize: 60,
+  },
+  descriptionCard: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 15,
+    marginBottom: 30,
+    alignItems: "center",
+    backgroundColor: "#F5F5F5",
+  },
+  descriptionCardDark: {
+    backgroundColor: "#2A2A2A",
+  },
+  descriptionTitle: {
+    marginBottom: 12,
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#000",
+  },
+  descriptionText: {
+    textAlign: "center",
+    lineHeight: 22,
+    opacity: 0.8,
+    color: "#000",
+  },
+  textDark: {
+    color: "#FFF",
+  },
+  textSecondaryDark: {
+    color: "#CCC",
+  },
+  featuresContainer: {
+    width: "100%",
+    gap: 15,
+    marginBottom: 30,
+  },
+  featureItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    borderRadius: 10,
+    gap: 12,
+    backgroundColor: "#F9F9F9",
+  },
+  featureItemDark: {
+    backgroundColor: "#2A2A2A",
+  },
+  featureEmoji: {
+    fontSize: 24,
+  },
+  featureText: {
+    fontSize: 14,
+    flex: 1,
+    fontWeight: "600",
+    color: "#000",
   },
 });

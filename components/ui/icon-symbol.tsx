@@ -1,41 +1,96 @@
-// Fallback for using MaterialIcons on Android and web.
+import { StyleProp, Text, TextStyle } from "react-native";
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
-import { ComponentProps } from 'react';
-import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
+type IconSymbolName =
+  | "house.fill"
+  | "paperplane.fill"
+  | "chevron.left.circle"
+  | "chevron.right.circle"
+  | "chevron.left"
+  | "chevron.right"
+  | "circle"
+  | "circle.fill"
+  | "checkmark.circle.fill"
+  | "xmark.circle.fill"
+  | "star.fill"
+  | "star"
+  | "person.fill"
+  | "gear"
+  | "ellipsis"
+  | "ellipsis.circle"
+  | "square.and.arrow.up"
+  | "square.and.arrow.up.on.square"
+  | "arrow.up.right"
+  | "arrow.up.left"
+  | "arrow.down.right"
+  | "arrow.down.left"
+  | "arrow.up"
+  | "arrow.down"
+  | "arrow.left"
+  | "arrow.right"
+  | "bell"
+  | "bell.fill"
+  | "bell.badge"
+  | "bell.badge.fill"
+  | "trash"
+  | "trash.fill"
+  | "cube"
+  | "cube.transparent"
+  | "plus"
+  | "camera.fill"
+  | "target"
+  | "clock.fill";
 
-type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
-type IconSymbolName = keyof typeof MAPPING;
-
-/**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
- */
-const MAPPING = {
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
-} as IconMapping;
-
-/**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
- */
-export function IconSymbol({
-  name,
-  size = 24,
-  color,
-  style,
-}: {
+interface IconSymbolProps {
   name: IconSymbolName;
   size?: number;
-  color: string | OpaqueColorValue;
+  color: string;
   style?: StyleProp<TextStyle>;
-  weight?: SymbolWeight;
-}) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
+}
+
+export function IconSymbol({ name, size = 24, color, style }: IconSymbolProps) {
+  // Simple emoji fallback for icons
+  const emojiMap: Record<IconSymbolName, string> = {
+    "house.fill": "🏠",
+    "paperplane.fill": "✈️",
+    "chevron.left.circle": "◀️",
+    "chevron.right.circle": "▶️",
+    "chevron.left": "‹",
+    "chevron.right": "›",
+    circle: "○",
+    "circle.fill": "●",
+    "checkmark.circle.fill": "✓",
+    "xmark.circle.fill": "✕",
+    "star.fill": "★",
+    star: "☆",
+    "person.fill": "👤",
+    gear: "⚙️",
+    ellipsis: "⋯",
+    "ellipsis.circle": "⊙",
+    "square.and.arrow.up": "⬆️",
+    "square.and.arrow.up.on.square": "📤",
+    "arrow.up.right": "↗️",
+    "arrow.up.left": "↖️",
+    "arrow.down.right": "↘️",
+    "arrow.down.left": "↙️",
+    "arrow.up": "↑",
+    "arrow.down": "↓",
+    "arrow.left": "←",
+    "arrow.right": "→",
+    bell: "🔔",
+    "bell.fill": "🔔",
+    "bell.badge": "🔔",
+    "bell.badge.fill": "🔔",
+    trash: "🗑️",
+    "trash.fill": "🗑️",
+    cube: "🎲",
+    "cube.transparent": "📦",
+    plus: "+",
+    "camera.fill": "📷",
+    target: "🎯",
+    "clock.fill": "⏱️",
+  };
+
+  const emoji = emojiMap[name] || "●";
+
+  return <Text style={[{ fontSize: size, color }, style]}>{emoji}</Text>;
 }
