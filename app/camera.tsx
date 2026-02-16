@@ -4,6 +4,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import CameraFrame from "@/screens/CameraFrame";
 import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
 export default function CameraScreen() {
   const colorScheme = useColorScheme();
@@ -62,11 +63,15 @@ export default function CameraScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      
-      <CameraFrame />
+      <Animated.View entering={FadeIn.duration(500)}>
+        <CameraFrame />
+      </Animated.View>
 
       {/* Color Display Box - HEX */}
-      <View style={[styles.colorBox, isDark && styles.colorBoxDark]}>
+      <Animated.View
+        entering={FadeInDown.duration(400).delay(200)}
+        style={[styles.colorBox, isDark && styles.colorBoxDark]}
+      >
         <View style={styles.colorInfo}>
           <View
             style={[styles.colorPreview, { backgroundColor: detectedColor }]}
@@ -80,10 +85,13 @@ export default function CameraScreen() {
             </Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Color Display Box - RGB */}
-      <View style={[styles.colorBox, isDark && styles.colorBoxDark]}>
+      <Animated.View
+        entering={FadeInDown.duration(400).delay(300)}
+        style={[styles.colorBox, isDark && styles.colorBoxDark]}
+      >
         <View style={styles.colorInfo}>
           <View
             style={[styles.colorPreview, { backgroundColor: detectedColor }]}
@@ -97,10 +105,13 @@ export default function CameraScreen() {
             </Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Color Display Box - RGBA */}
-      <View style={[styles.colorBox, isDark && styles.colorBoxDark]}>
+      <Animated.View
+        entering={FadeInDown.duration(400).delay(400)}
+        style={[styles.colorBox, isDark && styles.colorBoxDark]}
+      >
         <View style={styles.colorInfo}>
           <View
             style={[styles.colorPreview, { backgroundColor: detectedColor }]}
@@ -114,10 +125,13 @@ export default function CameraScreen() {
             </Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Color Display Box - HSL */}
-      <View style={[styles.colorBox, isDark && styles.colorBoxDark]}>
+      <Animated.View
+        entering={FadeInDown.duration(400).delay(500)}
+        style={[styles.colorBox, isDark && styles.colorBoxDark]}
+      >
         <View style={styles.colorInfo}>
           <View
             style={[styles.colorPreview, { backgroundColor: detectedColor }]}
@@ -131,10 +145,13 @@ export default function CameraScreen() {
             </Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Color Display Box - HSLA */}
-      <View style={[styles.colorBox, isDark && styles.colorBoxDark]}>
+      <Animated.View
+        entering={FadeInDown.duration(400).delay(600)}
+        style={[styles.colorBox, isDark && styles.colorBoxDark]}
+      >
         <View style={styles.colorInfo}>
           <View
             style={[styles.colorPreview, { backgroundColor: detectedColor }]}
@@ -148,13 +165,15 @@ export default function CameraScreen() {
             </Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
-      <Link href="/" dismissTo style={styles.link}>
-        <ThemedText type="link" style={styles.link}>
-          ← Retour
-        </ThemedText>
-      </Link>
+      <Animated.View entering={FadeInDown.duration(500).delay(700)}>
+        <Link href="/" dismissTo style={styles.link}>
+          <ThemedText type="link" style={styles.link}>
+            ← Retour
+          </ThemedText>
+        </Link>
+      </Animated.View>
     </ThemedView>
   );
 }
@@ -167,6 +186,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 20,
+    backgroundColor: "#0B1F3F",
   },
   title: {
     marginBottom: 20,
